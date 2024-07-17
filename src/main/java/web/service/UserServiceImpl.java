@@ -2,6 +2,7 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import web.entity.User;
 import web.repository.UserRepo;
 
@@ -11,30 +12,35 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepo userRepoImpl;
 
+    @Transactional(readOnly = true)
     @Override
     public List<User> getUsers() {
-        return userRepo.getUsers();
+        return userRepoImpl.getUsers();
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public User getUserById(int id) {
-        return userRepo.getUserById(id);
+    public User getUserById(long id) {
+        return userRepoImpl.getUserById(id);
     }
 
+    @Transactional
     @Override
     public void createUser(User user) {
-        userRepo.createUser(user);
+        userRepoImpl.createUser(user);
     }
 
+    @Transactional
     @Override
-    public void deleteUser(int id) {
-        userRepo.deleteUser(id);
+    public void deleteUser(long id) {
+        userRepoImpl.deleteUser(id);
     }
 
+    @Transactional
     @Override
     public void updateUser(User user) {
-        userRepo.updateUser(user);
+        userRepoImpl.updateUser(user);
     }
 }
